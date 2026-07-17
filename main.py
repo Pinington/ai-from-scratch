@@ -79,18 +79,12 @@ class BasicAI:
         delta = predicted - self.true_value(training_x, training_y)
         n1, n2, n3 = self.layer_one(training_x, training_y)
 
+        
         # Output layer partial derivatives
         grad_w1 = 2 * delta * predicted * (1 - predicted) * n1
         grad_w2 = 2 * delta * predicted * (1 - predicted) * n2
         grad_w3 = 2 * delta * predicted * (1 - predicted) * n3
         grad_b = 2 * delta * predicted * (1 - predicted)
-
-        # Output layer update
-        self.wO1 -= self.LEARNING_RATE * grad_w1
-        self.wO2 -= self.LEARNING_RATE * grad_w2
-        self.wO3 -= self.LEARNING_RATE * grad_w3
-        self.b -= self.LEARNING_RATE * grad_b
-
 
         # Hidden layer partial derivatives
         grad_w1x = 2 * delta * predicted * (1 - predicted) * self.wO1 * n1 * (1 - n1) * training_x
@@ -105,6 +99,13 @@ class BasicAI:
         grad_w3y = 2 * delta * predicted * (1 - predicted) * self.wO3 * n3 * (1 - n3) * training_y
         grad_b3 =  2 * delta * predicted * (1 - predicted) * self.wO3 * n3 * (1 - n3)
 
+        
+        # Output layer update
+        self.wO1 -= self.LEARNING_RATE * grad_w1
+        self.wO2 -= self.LEARNING_RATE * grad_w2
+        self.wO3 -= self.LEARNING_RATE * grad_w3
+        self.b -= self.LEARNING_RATE * grad_b
+        
         # Hidden layer update
         self.w1x -= self.LEARNING_RATE * grad_w1x
         self.w1y -= self.LEARNING_RATE * grad_w1y
